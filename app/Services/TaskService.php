@@ -13,7 +13,6 @@ class TaskService
         $task = Task::create([
             'name' => $taskName,
             'description' => $taskDescription,
-            'status' => 'Em andamento',
             'user_id' => auth()->id(),
         ]);
         DB::commit();

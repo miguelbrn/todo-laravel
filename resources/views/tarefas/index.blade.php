@@ -8,16 +8,17 @@ Lista de Tarefas
 
 @include('mensagem', ['mensagem' => $mensagem])
 
-<div class="filter">
+<div class="filter mb-4">
     <form action="{{ route('tasks.index') }}" method="GET">
         <div class="form-row">
             <div class="col-md-4">
                 <input type="text" class="form-control" name="description" placeholder="Descrição" value="{{ $search['description'] ?? '' }}">
             </div>
             <div class="col-md-4">
-                <select class="form-control" name="">
-                    <option value="1">Em andamento</option>
-                    <option value="0">Concluídas</option>
+                <select class="form-control" name="status" value="{{ $search['status'] ?? '' }}">
+                    <option value="">Todas</option>
+                    <option value="0">Em andamento</option>
+                    <option value="1">Concluídas</option>
                 </select>
             </div>
         </div>
@@ -26,20 +27,20 @@ Lista de Tarefas
     </form>
 </div>
 
-
-
 <div>
-@auth
 <a href="{{ route('tasks.create') }}" class="btn btn-dark mb-2">Adicionar</a>
-@endauth
 <u class="list-group">
     @foreach($tasks as $task)
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span>{{ $task->name }}</span>
-        <input type="checkbox"
-                       name="episodios[]"
-                       value="{{ $task->id }}"
-                       {{ $task ? 'checked' : '' }}>
+    <li class="list-group-item d-flex collumm justify-content-between align-items-center">
+        <div class="list-group w-75">
+            <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ $task->name }}</h5>
+                <small>{{ $task->status ? 'Concluída' : 'Em andamento' }}</small>
+            </div>
+            <p class="mb-1">{{ $task->description }}</p>
+            </a>
+        </div>
         <div class="input-group w-50" hidden id="input-nome-task-{{ $task->id }}">
             <input type="text" class="form-control" value="{{ $task->name }}">
             <div class="input-group-append">
@@ -50,13 +51,10 @@ Lista de Tarefas
             </div>
         </div>
 
-        <span class="d-flex">
-            @auth
-            <button class="btn btn-info btn-sm mr-1" onclick="toggleInput({{ $task->id }})">
-                <i class="fas fa-edit"></i>
-            </button>
-            @endauth
-            @auth
+        <div class="d-flex flex-column align-items-end">
+            <div>
+                <input class="checkbox-task" onclick="checkTask({{ $task->id }})" type="checkbox" {{ $task->status ? 'checked' : null }} value="{{ $task->status }}" style="min-width: 30px; min-height: 30px">
+            </div>
             <form method="post" action="/tasks/{{ $task->id }}"
                   onsubmit="return confirm('Tem certeza que deseja remover {{ addslashes($task->name) }}?')">
                 @csrf
@@ -65,42 +63,23 @@ Lista de Tarefas
                     <i class="far fa-trash-alt"></i>
                 </button>
             </form>
-            @endauth
-        </span>
+        </div>
     </li>
     @endforeach
 </ul>
 </div>
 <script>
-    function toggleInput(taskId) {
-        const nomeTaskEl = document.getElementById(`nome-task-${taskId}`);
-        const inputTaskEl = document.getElementById(`input-nome-task-${taskId}`);
-        if (nomeTaskEl.hasAttribute('hidden')) {
-            nomeTask.removeAttribute('hidden');
-            inputTaskEl.hidden = true;
-        } else {
-            inputTaskEl.removeAttribute('hidden');
-            nomeTaskEl.hidden = true;
-        }
-    }
-
-    function editarTask(taskId) {
-        let formData = new FormData();
-        const nome = document
-            .querySelector(`#input-nome-task-${taskId} > input`)
-            .value;
-        const token = document
-            .querySelector(`input[name="_token"]`)
-            .value;
-        formData.append('nome', nome);
-        formData.append('_token', token);
-        const url = `/tasks/${taskId}/editaNome`;
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        }).then(() => {
-            toggleInput(taskId);
-            document.getElementById(`nome-task-${taskId}`).textContent = nome;
+    function checkTask(taskId) {
+        $.ajax({
+            type: 'GET',
+            url: '/tasks/' + taskId + '/status',
+            data: {
+                _token: '{{ csrf_token() }}',
+                status: $('#status-checbox').is(':checked') ? 1 : 0
+            },
+            success: function(data) {
+                window.location.reload();
+            }
         });
     }
 </script>
