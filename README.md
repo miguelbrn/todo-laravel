@@ -1,64 +1,56 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Desafio FullStack - To-do list
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Nesse desafio eu tive que desenvolver um sistema de tarefas a fazer, onde será possível realizar filtros por status e por texto das tarefas já persistidas.
 
-## About Laravel
+# Padrões e Tecnologias usados
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* __PHP+Laravel__
+* Paradigma OO,
+* Padrão MVC (Model - View - Controller),
+* Boas práticas em Git/Github,
+* Padrões REST,
+* `Blade`: Para criação das páginas frontend,
+* `Bootstrap`: Para estilização das páginas e componentes,
+* `DotEnv`: Para variáveis de ambiente,
+* `Laravel Request`: Para validação e tratamento de erros dos dados recebidos pelas requisições,
+* `JWT`: Para autenticação,
+* `Mysql`: Banco de dados, 
+* `Eloquent`: ORM responsável em manipular o banco de dados relacional usado no projeto,
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Observações
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Com certeza esse código pode ser implementado e refatorado (Nada bom que não possa melhorar), faltaram alguns testes, rotas, funções que não consegui implementar por conta do tempo (dediquei cerca de 4 horas totais nesse projeto).
 
-## Learning Laravel
+O código não está totalmente padronizado, algumas funções estão com caracteristicas diferentes, o objetivo foi demonstrar conhecimento com outras implementações e formas de codar.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Como executar a aplicação:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone o repositório na sua máquina
+  * `git clone https://github.com/miguelbrn/todo-laravel.git`
+  * `cd todo-laravel`
+2. Crie um arquivo `.env` na raiz do projeto,
+  * `cp .env.example .env`
+3. Suba as máquinas virtuais usando docker (OBS: O laravel possui um pacote chamado Sail, ele traz como benefício algumas interações entre o framework e as máquinas virtuais, por esse motivo ele foi usado no projeto)
+  * `./vendor/bin/sail up`
+  * `./vendor/bin/sail exec web bash`
+4. Dentro da máquina virtual, instale os pacotes e rode as migrations
+  * `composer install`
+  * `php artisan migrate`
+5. Acesse o projeto
+  * <https://localhost/>
+# Endpoints
 
-## Laravel Sponsors
+### Login
+* GET `/login`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Registrar novo usuário
+* GET `/register` 
 
-### Premium Partners
+#### listar todas as tasks
+* GET `/tasks`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Os demais endpoints (Post/PUT/Delete) são interativos e seguem os padrões do MVC.
 
-## Contributing
+# Considerações
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Quero agradecer a Wanderley e André pela oportunidade de participar desse projeto, o desafio foi bem legal. O fato de a empresa ser potiguar e eu ter a chance de contribuir, interagir e socializar com meus colegas de forma presencial tornaram esse processo seletivo muito importante pra mim.
