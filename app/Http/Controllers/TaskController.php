@@ -12,9 +12,12 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = Task::query()
-            ->orderBy('name')
-            ->get();
+        if($request->has('description')) {
+            $tasks = Task::where('description', 'like', '%' . $request->description . '%')->get();
+        } else {
+            $tasks = Task::all();
+        }
+
         $mensagem = $request->session()->get('mensagem');
         return view('tarefas.index', compact('tasks', 'mensagem'));
     }
@@ -43,9 +46,11 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function destroy(Task $task, TaskService $taskService)
+    public function destroy(Request $request, TaskService $taskService)
     {
-        $taskService->removeTask($task);
+        $taskService->removeTask(
+            Task::findOrFail($request->id)
+        );
 
         return redirect()->route('tasks.index');
     }

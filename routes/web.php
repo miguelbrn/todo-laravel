@@ -16,17 +16,24 @@ use App\Http\Controllers\RegisterController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/home', [TodoController::class, 'index'] )->name('home.index');
-Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
-Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
-Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
-Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('tasks.index');
+    });
+    Route::get('/home', [TodoController::class, 'index'] )->name('home.index');
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
+    Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+    Route::get('/logout', function () {
+        \Illuminate\Support\Facades\Auth::logout();
+        return redirect('/login');
+    })->name('logout');
+});
+Route::get('/', function () {
+    return redirect()->route('tasks.index');
+});
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.login');
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-Route::get('/logout', function () {
-    \Illuminate\Support\Facades\Auth::logout();
-    return redirect('/login');
-})->name('logout');

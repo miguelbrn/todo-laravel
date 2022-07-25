@@ -20,6 +20,6 @@ class LoginController extends Controller
                 ->withErrors('Usuário e/ou senha incorretos');
         }
 
-        return redirect()->route('home.index');
+        return redirect()->route('tasks.index');
     }
 }

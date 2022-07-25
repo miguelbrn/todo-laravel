@@ -13,7 +13,7 @@
     <nav class="navbar navbar-expand-lg navbar-light mb-2 d-flex justify-content-between" style="background-color: #e9ecef;">
         <a class="navbar-brand" href="{{ route('home.index') }}">Home</a>
         @auth
-        <a href="/sair" class="text-danger">Sair</a>
+        <a href="/logout" class="text-danger">Sair</a>
         @endauth
 
         @guest

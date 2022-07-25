@@ -8,15 +8,38 @@ Lista de Tarefas
 
 @include('mensagem', ['mensagem' => $mensagem])
 
+<div class="filter">
+    <form action="{{ route('tasks.index') }}" method="GET">
+        <div class="form-row">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="description" placeholder="Descrição" value="{{ $search['description'] ?? '' }}">
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" name="">
+                    <option value="1">Em andamento</option>
+                    <option value="0">Concluídas</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark mt-2">Filtrar</button>
+        @csrf
+    </form>
+</div>
+
+
+
+<div>
 @auth
 <a href="{{ route('tasks.create') }}" class="btn btn-dark mb-2">Adicionar</a>
 @endauth
-
-<ul class="list-group">
+<u class="list-group">
     @foreach($tasks as $task)
     <li class="list-group-item d-flex justify-content-between align-items-center">
         <span>{{ $task->name }}</span>
-
+        <input type="checkbox"
+                       name="episodios[]"
+                       value="{{ $task->id }}"
+                       {{ $task ? 'checked' : '' }}>
         <div class="input-group w-50" hidden id="input-nome-task-{{ $task->id }}">
             <input type="text" class="form-control" value="{{ $task->name }}">
             <div class="input-group-append">
@@ -47,7 +70,7 @@ Lista de Tarefas
     </li>
     @endforeach
 </ul>
-
+</div>
 <script>
     function toggleInput(taskId) {
         const nomeTaskEl = document.getElementById(`nome-task-${taskId}`);
