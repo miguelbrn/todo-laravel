@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
 {
@@ -14,7 +15,7 @@ class RegisterController extends Controller
         return view('registro.create');
     }
 
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
         $data = $request->except('_token');
         $data['password'] = Hash::make($data['password']);

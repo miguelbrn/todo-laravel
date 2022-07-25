@@ -5,6 +5,13 @@
 @endsection
 
 @section('conteudo')
+
+<div class="text-danger list-none">
+    @foreach ($errors->all() as $error)
+        <li class="list-group-item">{{ $error }}</li>
+    @endforeach
+</div>
+
 <form method="post">
     @csrf
     <div class="form-group">
